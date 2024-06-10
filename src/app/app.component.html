@@ -1,20 +1,66 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container mt-5">
+  <h2>User Details</h2>
+  <form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input id="name" class="form-control" formControlName="name">
+      <div *ngIf="recordForm.controls.name.invalid && (recordForm.controls.name.dirty || recordForm.controls.name.touched)" class="alert alert-danger">
+        Name is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" class="form-control" formControlName="email">
+      <div *ngIf="recordForm.controls.email.invalid && (recordForm.controls.email.dirty || recordForm.controls.email.touched)" class="alert alert-danger">
+        Valid email is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone:</label>
+      <input id="phone" class="form-control" formControlName="phone">
+      <div *ngIf="recordForm.controls.phone.invalid && (recordForm.controls.phone.dirty || recordForm.controls.phone.touched)" class="alert alert-danger">
+        Phone number is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount:</label>
+      <input id="amount" class="form-control" formControlName="amount">
+      <div *ngIf="recordForm.controls.amount.invalid && (recordForm.controls.amount.dirty || recordForm.controls.amount.touched)" class="alert alert-danger">
+        Amount is required.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!recordForm.valid">Submit</button>
+  </form>
+  
+  <div class="mt-5">
+    <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchTerm">
+  </div>
 
+  <table class="table mt-3" *ngIf="filteredRecords.length">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of filteredRecords; let i = index">
+        <td>{{ record.name }}</td>
+        <td>{{ record.email }}</td>
+        <td>{{ record.phone }}</td>
+        <td>{{ record.amount }}</td>
+        <td><button class="btn btn-danger" (click)="deleteRecord(i)">Remove</button></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="3">Total Amount</th>
+        <th>{{ totalAmount }}</th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
